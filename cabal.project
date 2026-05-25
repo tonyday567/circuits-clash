@@ -1,0 +1,10 @@
+packages:
+  circuits-clash.cabal
+  ../circuits/circuits.cabal
+  ../../other/clash-compiler/clash-prelude/clash-prelude.cabal
+
+allow-newer:
+  clash-prelude:template-haskell
+
+package clash-prelude
+  ghc-options: -fconstraint-solver-iterations=0

@@ -1,0 +1,81 @@
+cabal-version: 3.0
+name: circuits-clash
+version: 0.1.0.0
+license: BSD-3-Clause
+license-file: LICENSE
+copyright: Tony Day (c) 2026
+category: control
+author: Tony Day
+maintainer: tonyday567@gmail.com
+homepage: https://github.com/tonyday567/circuits#readme
+bug-reports: https://github.com/tonyday567/circuits/issues
+synopsis: traced categories for clash signals
+description:
+  circuits-clash connects the free traced monoidal category framework of
+  circuits to Clash's synchronous signal abstraction. It shows that Clash's
+  mealy machine is a concrete instance of the traced category trace over
+  the cartesian tensor, with register providing the causal delay.
+
+build-type: Simple
+tested-with:
+  ghc ==9.10.1
+  ghc ==9.12.2
+  ghc ==9.14.1
+
+source-repository head
+  type: git
+  location: https://github.com/tonyday567/circuits
+
+common ghc-options-stanza
+  ghc-options:
+    -Wall
+    -Wno-unused-imports
+    -Wcompat
+    -Widentities
+    -Wincomplete-record-updates
+    -Wincomplete-uni-patterns
+    -Wpartial-fields
+    -Wredundant-constraints
+
+common ghc2024-stanza
+  if impl(ghc >=9.10)
+    default-language:
+      GHC2024
+  else
+    default-language:
+      GHC2021
+
+library
+  import: ghc-options-stanza
+  import: ghc2024-stanza
+  hs-source-dirs: src
+  exposed-modules:
+    Circuit.Clash
+    Circuit.Clash.MealyTrace
+
+  build-depends:
+    base >=4.18 && <5,
+    circuits >=0.1 && <0.2,
+    clash-prelude >=1.10 && <1.12,
+
+executable mealy-trace-example
+  import: ghc-options-stanza
+  import: ghc2024-stanza
+  main-is: MealyTraceExample.hs
+  hs-source-dirs: examples
+  build-depends:
+    base,
+    circuits,
+    circuits-clash,
+    clash-prelude,
+
+executable mac-circuit
+  import: ghc-options-stanza
+  import: ghc2024-stanza
+  main-is: MacCircuit.hs
+  hs-source-dirs: examples
+  build-depends:
+    base,
+    circuits,
+    circuits-clash,
+    clash-prelude,
