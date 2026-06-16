@@ -16,7 +16,7 @@
 -- compile to the same lazy-knot pattern that standard @mealy@ uses.
 module Main where
 
-import Circuit (Circuit (Knot), reify)
+import Circuit (Circuit (Knot, Lift), reify)
 import Circuit.Clash.MealyTrace (ClashCircuit (..))
 import Clash.Explicit.Mealy qualified as Clash
 import Clash.Explicit.Prelude hiding ((++))
@@ -60,7 +60,7 @@ macStandard clk rst en = Clash.mealy clk rst en macT 0
 -- to tie the lazy knot over @Signal@, producing a single
 -- @ClashCircuit dom (Int, Int) Int@.
 macCircuit :: Circuit (ClashCircuit System) (,) (Int, Int) Int
-macCircuit = Knot macStage
+macCircuit = Knot (Lift macStage)
 
 -- | The reified circuit, ready to run on signals.
 macAsCircuit ::
